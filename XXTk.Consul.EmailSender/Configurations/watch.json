@@ -1,0 +1,17 @@
+// 该文件用于配置监控预警
+// 该文件非项目文件，需放置在consul所在主机上，一般路径为 /etc/consul.d/
+{
+  "watches": [
+    {
+      "type": "checks",
+      "handler_type": "http",
+      "state": "critical",
+      "http_handler_config": {
+        "path": "http://192.168.0.103:5010/api/Monitor/Notice",
+        "method": "POST",
+        "timeout": "10s",
+        "header": { "Authorization": [ "token" ] }
+      }
+    }
+  ]
+}
