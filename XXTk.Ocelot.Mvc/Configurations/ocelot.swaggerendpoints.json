@@ -1,0 +1,19 @@
+{
+  "SwaggerEndPoints": [
+    {
+      "Key": "MyService",
+      "Config": [
+        {
+          "Name": "MyService API",
+          "Version": "v1",
+          "Service": {
+            // 服务注册的名称
+            "Name": "MyService",
+            // 服务的swagger路径（由此可见，该插件实质是将服务的swagger页面进行组装来展示）
+            "Path": "/swagger/v1/swagger.json"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -19,7 +19,7 @@ namespace XXTk.Consul.Api.Controllers
         [HttpGet]
         public string Get()
         {
-            return "Hello !!!";
+            return $"Hello !!! {DateTime.Now:o}";
         }
 
         [HttpGet("GetNames")]

@@ -1,0 +1,21 @@
+{
+  "GlobalConfiguration": {
+    "ServiceDiscoveryProvider": {
+      "Scheme": "http",
+      "Host": "192.168.181.130",
+      "Port": 8500,
+      "Type": "Consul"
+    },
+    // 限流配置
+    "RateLimitOptions": {
+      // 是否禁用与限流相关的Header（X-Rate-Limit，Retry-After）
+      "DisableRateLimitHeaders": false,
+      // 客户端达到上限后，服务端返回的消息
+      "QuotaExceededMessage": "too many requests...",
+      // 客户端达到上限后，服务端返回的Http状态码
+      "HttpStatusCode": 999,
+      // 自定义 ClientId 标头
+      "ClientIdHeader": "ClientId"
+    }
+  }
+}

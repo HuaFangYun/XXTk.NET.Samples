@@ -1,0 +1,99 @@
+{
+  //"Routes": [
+  //  {
+  //    "DownstreamPathTemplate": "/api/Hello",
+  //    "DownstreamScheme": "http",
+  //    "DownstreamHostAndPorts": [
+  //      {
+  //        "Host": "localhost",
+  //        "Port": 5000
+  //      }
+  //    ],
+  //    "UpstreamPathTemplate": "/Hello",
+  //    "UpstreamHttpMethod": [
+  //      "Get"
+  //    ],
+  //    "LoadBalancerOptions": {
+  //      "Type": "RoundRobin"
+  //    }
+  //  },
+  //  {
+  //    "DownstreamPathTemplate": "/api/Hello/GetNames",
+  //    "DownstreamScheme": "http",
+  //    "DownstreamHostAndPorts": [
+  //      {
+  //        "Host": "localhost",
+  //        "Port": 5000
+  //      }
+  //    ],
+  //    "UpstreamPathTemplate": "/GetNames",
+  //    "UpstreamHttpMethod": [
+  //      "Get"
+  //    ],
+  //    "LoadBalancerOptions": {
+  //      "Type": "RoundRobin"
+  //    }
+  //  }
+  //]
+  "Routes": [
+    {
+      // 下游（服务端）
+      "DownstreamPathTemplate": "/api/Hello",
+      "DownstreamScheme": "http",
+      // 上游（客户端）
+      "UpstreamPathTemplate": "/Hello",
+      "UpstreamHttpMethod": [ "Get" ],
+      // 服务名称
+      "ServiceName": "MyService",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
+      // 缓存配置
+      "FileCacheOptions": {
+        // 缓存过期时间 s
+        "TtlSeconds": 5,
+        // 缓冲区名称
+        "Region": "regionname"
+      },
+      // 限流配置
+      "RateLimitOptions": {
+        // 白名单，不受限流影响
+        "ClientWhiteList": [ "MyClient" ],
+        // 是否开启限流
+        "EnableRateLimiting": true,
+        // 单位时间（即多少时间内达到请求上限则限流）
+        "Period": "5s",
+        // 客户端请求上限
+        "Limit": 2,
+        // 客户端达到上限后的重试时间间隔
+        "PeriodTimeSpan": 2
+      },
+      // 对应于 SwaggerEndPoints 中的 Key
+      "SwaggerKey": "MyService"
+    },
+    {
+      "DownstreamPathTemplate": "/api/Hello/GetNames",
+      "DownstreamScheme": "http",
+      "UpstreamPathTemplate": "/GetNames",
+      "UpstreamHttpMethod": [ "Get" ],
+      "ServiceName": "MyService",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 5,
+        "Region": "regionname"
+      },
+      // 超时/熔断配置
+      "QoSOptions": {
+        // 异常多少次后熔断
+        "ExceptionsAllowedBeforeBreaking": 3,
+        // 熔断多长时间后恢复正常 ms
+        "DurationOfBreak": 10000,
+        // 超时时间 ms
+        "TimeoutValue": 5000
+      },
+      "SwaggerKey": "MyService"
+    }
+  ]
+}
