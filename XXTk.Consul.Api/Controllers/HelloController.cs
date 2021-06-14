@@ -21,5 +21,16 @@ namespace XXTk.Consul.Api.Controllers
         {
             return "Hello !!!";
         }
+
+        [HttpGet("GetNames")]
+        public IEnumerable<string> GetNames()
+        {
+            return new[]
+            {
+                "jjj",
+                "kkk",
+                "lll"
+            };
+        }
     }
 }

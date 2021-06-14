@@ -7,9 +7,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Consul", "Consul", "{F5B45C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXTk.Consul.Api", "XXTk.Consul.Api\XXTk.Consul.Api.csproj", "{EA50014C-4612-473F-8EEA-DAC556CE12D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XXTk.Consul.Client.Console", "XXTk.Consul.Client.Console\XXTk.Consul.Client.Console.csproj", "{35ADE0F7-8C51-493C-8AB2-D29138056633}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXTk.Consul.Client.Console", "XXTk.Consul.Client.Console\XXTk.Consul.Client.Console.csproj", "{35ADE0F7-8C51-493C-8AB2-D29138056633}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XXTk.Consul.EmailSender", "XXTk.Consul.EmailSender\XXTk.Consul.EmailSender.csproj", "{EFA8752A-3DC7-46ED-9EDD-B4FBDC0FCFB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXTk.Consul.EmailSender", "XXTk.Consul.EmailSender\XXTk.Consul.EmailSender.csproj", "{EFA8752A-3DC7-46ED-9EDD-B4FBDC0FCFB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XXTk.Consul.Mvc", "XXTk.Consul.Mvc\XXTk.Consul.Mvc.csproj", "{F349E162-CEBC-4614-88F0-22CA775284F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{EFA8752A-3DC7-46ED-9EDD-B4FBDC0FCFB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFA8752A-3DC7-46ED-9EDD-B4FBDC0FCFB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFA8752A-3DC7-46ED-9EDD-B4FBDC0FCFB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F349E162-CEBC-4614-88F0-22CA775284F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F349E162-CEBC-4614-88F0-22CA775284F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F349E162-CEBC-4614-88F0-22CA775284F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F349E162-CEBC-4614-88F0-22CA775284F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -37,6 +43,7 @@ Global
 		{EA50014C-4612-473F-8EEA-DAC556CE12D4} = {F5B45C38-FD05-4A75-BED0-38AE6A3B6B9C}
 		{35ADE0F7-8C51-493C-8AB2-D29138056633} = {F5B45C38-FD05-4A75-BED0-38AE6A3B6B9C}
 		{EFA8752A-3DC7-46ED-9EDD-B4FBDC0FCFB2} = {F5B45C38-FD05-4A75-BED0-38AE6A3B6B9C}
+		{F349E162-CEBC-4614-88F0-22CA775284F7} = {F5B45C38-FD05-4A75-BED0-38AE6A3B6B9C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DA1F9289-B3EF-4A09-A4AE-A4EDDBA6A978}
