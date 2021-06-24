@@ -11,6 +11,8 @@ namespace XXTk.RedPacket.Api
 {
     public class RedPacketHelper
     {
+        private static readonly TimeSpan _expiry = TimeSpan.FromMinutes(1);
+
         private readonly IDatabase _redis;
 
         public RedPacketHelper(DefaultRedisHelper redisHelper)
@@ -47,13 +49,19 @@ namespace XXTk.RedPacket.Api
             }
             moneies.Add(Math.Round(leftMoneyOfFen / 100d, 2).ToString());
 
+            // 将红包金额存放到List中
             _redis.ListRightPush(redPacketId, moneies.ToArray());
+            // 将红包的到期时间存放到zset中
+            _redis.SortedSetAdd("RedPacketExpiries", redPacketId, DateTimeOffset.Now.Add(_expiry).ToUnixTimeSeconds());
 
             return redPacketId;
         }
 
         public decimal? GetRedPacket(string id, string userId)
         {
+            if (_redis.HashExists(GetRedPacketRecordsRedisKey(id), userId))
+                throw new Exception("您已经领取过了");
+
             var money = _redis.ListLeftPop(id);
             if (money.HasValue)
             {
@@ -82,12 +90,12 @@ namespace XXTk.RedPacket.Api
                 .ToList();
         }
 
-        private static string GetRedPacketRecordsRedisKey(string redPackedId)
+        private static RedisKey GetRedPacketRecordsRedisKey(string redPacketId)
         {
-            if (string.IsNullOrWhiteSpace(redPackedId))
-                throw new ArgumentNullException(redPackedId);
+            if (string.IsNullOrWhiteSpace(redPacketId))
+                throw new ArgumentNullException(redPacketId);
 
-            return $"{redPackedId}-Records";
+            return $"{redPacketId}-Records";
         }
 
         /// <summary>

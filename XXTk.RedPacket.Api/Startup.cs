@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Quartz;
+using Quartz.Impl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +32,10 @@ namespace XXTk.RedPacket.Api
             services.AddSingleton(new DefaultRedisHelper(redisOptions));
             services.AddTransient<RedPacketHelper>();
 
+            services.AddSingleton<RedPacketExpiryJob>();
+            services.AddTransient<QuartzStartUp>();
+            services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -38,7 +44,7 @@ namespace XXTk.RedPacket.Api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime appLifetime)
         {
             if (env.IsDevelopment())
             {
@@ -54,6 +60,17 @@ namespace XXTk.RedPacket.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            var quartz = app.ApplicationServices.GetRequiredService<QuartzStartUp>();
+            appLifetime.ApplicationStarted.Register(() =>
+            {
+                quartz.Start().Wait();
+            });
+
+            appLifetime.ApplicationStopped.Register(() =>
+            {
+                quartz.Stop();
             });
         }
     }
