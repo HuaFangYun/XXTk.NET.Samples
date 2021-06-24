@@ -7,9 +7,16 @@ namespace XXTk.ShortUrl.Api.Redis
 {
     public static class RedisConsts
     {
-        public static class Instance
+        public static class Instances
         {
             private const string Default = nameof(Default);
+        }
+
+        public static class Keys
+        {
+            public const string ShortUrlIdRedisKey = "ShortUrlId";
+            public const string ShortLongUrlRedisKeyPrefix = "ShortLongUrl-";
+            public const string LongShortUrlRedisKeyPrefix = "LongShortUrl-";
         }
     }
 }

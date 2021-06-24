@@ -9,11 +9,12 @@ namespace XXTk.ShortUrl.Api.Redis
 {
     public class DefaultRedisHelper : IDisposable
     {
+        private static readonly ConcurrentDictionary<string, ConnectionMultiplexer> _connections = new();
+
         private bool _hasDisposed = false;
         private readonly ConfigurationOptions _configurationOptions;
         private readonly string _instanceName;
         private readonly int _defaultDB;
-        private readonly ConcurrentDictionary<string, ConnectionMultiplexer> _connections = new();
 
         public DefaultRedisHelper(RedisOptions redisOptions)
         {

@@ -28,6 +28,7 @@ namespace XXTk.ShortUrl.Api
         {
             var redisOptions = Configuration.GetSection("Redis:Default").Get<RedisOptions>();
             services.AddSingleton(new DefaultRedisHelper(redisOptions));
+            services.AddTransient<ShortUrlHelper>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
