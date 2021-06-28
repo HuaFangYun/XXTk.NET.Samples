@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Quartz;
 using Quartz.Impl;
+using StackExchange.Redis.Extensions.Core.Configuration;
+using StackExchange.Redis.Extensions.Newtonsoft;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,8 +30,8 @@ namespace XXTk.RedPacket.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var redisOptions = Configuration.GetSection("Redis:Default").Get<RedisOptions>();
-            services.AddSingleton(new DefaultRedisHelper(redisOptions));
+            var redisConfig = Configuration.GetSection("Redis").Get<RedisConfiguration>();
+            services.AddStackExchangeRedisExtensions<NewtonsoftSerializer>(redisConfig);
             services.AddTransient<RedPacketHelper>();
 
             services.AddSingleton<RedPacketExpiryJob>();

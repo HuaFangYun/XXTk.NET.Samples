@@ -1,5 +1,6 @@
 ﻿using Quartz;
 using StackExchange.Redis;
+using StackExchange.Redis.Extensions.Core.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,23 +13,25 @@ namespace XXTk.RedPacket.Api
     [DisallowConcurrentExecution]
     public class RedPacketExpiryJob : IJob
     {
-        private readonly IDatabase _redis;
+        private readonly IRedisCacheClient _redisCacheClient;
 
-        public RedPacketExpiryJob(DefaultRedisHelper redisHelper)
+        public RedPacketExpiryJob(IRedisCacheClient redisCacheClient)
         {
-            _redis = redisHelper.GetDatabase();
+            _redisCacheClient = redisCacheClient;
         }
 
         public async Task Execute(IJobExecutionContext context)
         {
+            var redisDatabase = _redisCacheClient.GetDbFromConfiguration();
+
             // 查询已过期的红包
             var now = DateTimeOffset.Now.ToUnixTimeSeconds();
-            var expiredRedPacketIds = (await _redis.SortedSetRangeByScoreAsync("RedPacketExpiries", 0, now))
-                .Select(value => (string)value);
+            var expiredRedPacketIds = (await redisDatabase.Database.SortedSetRangeByScoreAsync("RedPacketExpiries", 0, now))
+                .Select(id => (string)id);
 
             foreach (var id in expiredRedPacketIds)
             {
-                var moneies = (await _redis.ListRangeAsync(id))
+                var moneies = (await redisDatabase.Database.ListRangeAsync(id))
                     .Select(value => (decimal)value);
 
                 if (moneies.Any())
@@ -42,8 +45,8 @@ namespace XXTk.RedPacket.Api
                     }
                 }
 
-                await _redis.SortedSetRemoveAsync("RedPacketExpiries", id);
-                await _redis.KeyDeleteAsync(id);
+                await redisDatabase.SortedSetRemoveAsync("RedPacketExpiries", id);
+                await redisDatabase.Database.KeyDeleteAsync(id);
             }
         }
     }

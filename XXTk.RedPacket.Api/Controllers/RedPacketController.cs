@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using StackExchange.Redis.Extensions.Core.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,9 +30,9 @@ namespace XXTk.RedPacket.Api.Controllers
         /// <param name="count"></param>
         /// <returns></returns>
         [HttpPost]
-        public string Post([FromQuery] int totalMoney, [FromQuery] int count)
+        public async Task<string> Post([FromQuery] int totalMoney, [FromQuery] int count)
         {
-            return _redPacketHelper.CreateRedPacket(totalMoney, count);
+            return await _redPacketHelper.CreateRedPacket(totalMoney, count);
         }
 
         /// <summary>
@@ -40,18 +41,18 @@ namespace XXTk.RedPacket.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public decimal Get([FromRoute] string id)
+        public async Task<decimal> Get([FromRoute] string id)
         {
-            var userId = $"User-{DateTime.Now:O}";
-            var money = _redPacketHelper.GetRedPacket(id, userId);                
+            var userId = $"User-{Guid.NewGuid()}";
+            var money = await _redPacketHelper.GetRedPacket(id, userId);                
 
             return money ?? throw new Exception("来晚了，红包已被抢光");
         }
 
         [HttpGet("GetRedPacketRecords/{id}")]
-        public ActionResult<List<RedPacketRecord>> GetRedPacketRecords([FromRoute] string id)
+        public async Task<List<RedPacketRecord>> GetRedPacketRecords([FromRoute] string id)
         {
-            return _redPacketHelper.GetRedPacketRecords(id);
+            return await _redPacketHelper.GetRedPacketRecords(id);
         }
     }
 }
