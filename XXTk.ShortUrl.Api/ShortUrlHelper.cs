@@ -1,4 +1,5 @@
 ﻿using StackExchange.Redis;
+using StackExchange.Redis.Extensions.Core.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,14 +13,16 @@ namespace XXTk.ShortUrl.Api
     {
         private readonly static TimeSpan _shortUrlExpiry = TimeSpan.FromMinutes(1);
 
-        private readonly IDatabase _redis;
+        private readonly IRedisCacheClient _redisCacheClient;
+        private readonly IRedisDatabase _redisDatabase;
 
-        public ShortUrlHelper(DefaultRedisHelper redisHelper)
+        public ShortUrlHelper(IRedisCacheClient redisCacheClient)
         {
-            _redis = redisHelper.GetDatabase();
+            _redisCacheClient = redisCacheClient;
+            _redisDatabase = _redisCacheClient.GetDbFromConfiguration();
         }
 
-        public string GetShortUrl(string longUrl)
+        public async Task<string> GetShortUrl(string longUrl)
         {
             if (string.IsNullOrWhiteSpace(longUrl))
             {
@@ -27,37 +30,37 @@ namespace XXTk.ShortUrl.Api
             }
 
             var longUrlRedisKey = GetLongUrlRedisKey(longUrl);
-            var shortUrl = _redis.StringGet(longUrlRedisKey);
-            if (shortUrl.HasValue)
+            var shortUrl = await _redisDatabase.GetAsync<string>(longUrlRedisKey);
+            if (shortUrl is not null)
             {
-                _redis.KeyExpire(GetShortUrlRedisKey(shortUrl), _shortUrlExpiry);
-                _redis.KeyExpire(longUrlRedisKey, _shortUrlExpiry);
+                await _redisDatabase.Database.KeyExpireAsync(GetShortUrlRedisKey(shortUrl), _shortUrlExpiry);
+                await _redisDatabase.Database.KeyExpireAsync(longUrlRedisKey, _shortUrlExpiry);
 
                 return shortUrl;
             }
 
-            if (!_redis.KeyExists(RedisConsts.Keys.ShortUrlIdRedisKey))
+            if (!_redisDatabase.Database.KeyExists(RedisConsts.Keys.ShortUrlIdRedisKey))
             {
-                _redis.StringSet(RedisConsts.Keys.ShortUrlIdRedisKey, 10000);
+                await _redisDatabase.AddAsync(RedisConsts.Keys.ShortUrlIdRedisKey, 10000);
             }
 
-            var id = _redis.StringIncrement(RedisConsts.Keys.ShortUrlIdRedisKey);
+            var id = await _redisDatabase.Database.StringIncrementAsync(RedisConsts.Keys.ShortUrlIdRedisKey);
             shortUrl = Base62Converter.LongToBase(id);
-            _redis.StringSet(GetShortUrlRedisKey(shortUrl), longUrl, _shortUrlExpiry);
-            _redis.StringSet(longUrlRedisKey, shortUrl, _shortUrlExpiry);
+            await _redisDatabase.AddAsync(GetShortUrlRedisKey(shortUrl), longUrl, _shortUrlExpiry);
+            await _redisDatabase.AddAsync(longUrlRedisKey, shortUrl, _shortUrlExpiry);
 
             return shortUrl;
 
         }
 
-        public string GetLongUrl(string shortUrl)
+        public async Task<string> GetLongUrl(string shortUrl)
         {
             var shortUrlRedisKey = GetShortUrlRedisKey(shortUrl);
-            var longUrl = _redis.StringGet(shortUrlRedisKey);
-            if (longUrl.HasValue)
+            var longUrl = await _redisDatabase.GetAsync<string>(shortUrlRedisKey);
+            if (longUrl is not null)
             {
-                _redis.KeyExpire(shortUrlRedisKey, _shortUrlExpiry);
-                _redis.KeyExpire(GetLongUrlRedisKey(longUrl), _shortUrlExpiry);
+                _redisDatabase.Database.KeyExpire(shortUrlRedisKey, _shortUrlExpiry);
+                _redisDatabase.Database.KeyExpire(GetLongUrlRedisKey(longUrl), _shortUrlExpiry);
                 return longUrl;
             }
 

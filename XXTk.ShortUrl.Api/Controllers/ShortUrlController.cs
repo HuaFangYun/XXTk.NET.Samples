@@ -33,9 +33,9 @@ namespace XXTk.ShortUrl.Api.Controllers
         /// <code>"https://www.baidu.com"</code>
         /// </example>
         [HttpPost("GetShortUrl")]
-        public string GetShortUrl([FromBody] string longUrl)
+        public async Task<string> GetShortUrl([FromBody] string longUrl)
         {
-            return _shortUrlHelper.GetShortUrl(longUrl);
+            return await _shortUrlHelper.GetShortUrl(longUrl);
         }
 
         /// <summary>
@@ -44,15 +44,15 @@ namespace XXTk.ShortUrl.Api.Controllers
         /// <param name="shortUrl"></param>
         /// <returns></returns>
         [HttpGet("GetLongUrl")]
-        public string GetLongUrl(string shortUrl)
+        public async Task<string> GetLongUrl(string shortUrl)
         {
-            return _shortUrlHelper.GetLongUrl(shortUrl);
+            return await _shortUrlHelper.GetLongUrl(shortUrl);
         }
 
         [HttpGet("{shortUrl}")]
-        public IActionResult Get(string shortUrl)
+        public async Task<IActionResult> Get(string shortUrl)
         {
-            var longUrl = _shortUrlHelper.GetLongUrl(shortUrl);
+            var longUrl = await _shortUrlHelper.GetLongUrl(shortUrl);
             if(longUrl is null)
             {
                 return NotFound();
