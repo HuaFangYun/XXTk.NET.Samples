@@ -40,7 +40,7 @@ namespace XXTk.RedPacket.Api
                     {
                         sw.WriteLine($"Id: {id}{Environment.NewLine}" +
                                      $"Money: {moneies.Sum()}{Environment.NewLine}" +
-                                     $"Time: {DateTime.Now}{Environment.NewLine}"
+                                     $"Time: {DateTimeOffset.Now}{Environment.NewLine}"
                         );
                     }
                 }

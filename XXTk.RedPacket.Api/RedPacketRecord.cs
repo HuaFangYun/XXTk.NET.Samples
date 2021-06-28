@@ -11,6 +11,6 @@ namespace XXTk.RedPacket.Api
 
         public decimal MoneyOfYuan { get; set; }
 
-        public DateTime DateTime { get; set; }
+        public DateTimeOffset DateTime { get; set; }
     }
 }

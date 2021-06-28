@@ -74,6 +74,23 @@ namespace XXTk.RedPacket.Api
             {
                 quartz.Stop();
             });
+
+            // 将redis信息通过api暴露到外部
+            // /redis/connectionInfo
+            // /redis/info
+            app.UseRedisInformation(o => 
+            {
+                // 配置允许调用api的ip地址
+                //o.AllowedIPs = 
+                //o.AllowFunction = (httpContext) =>
+                //{
+                //    // 自定义认证授权逻辑
+
+                //    // true：允许访问
+                //    // false：拒绝访问
+                //    return true;
+                //};
+            });
         }
     }
 }

@@ -57,6 +57,8 @@ namespace XXTk.ShortUrl.Api
             {
                 endpoints.MapControllers();
             });
+
+            app.UseRedisInformation();
         }
     }
 }

@@ -70,7 +70,7 @@ namespace XXTk.RedPacket.Api
                 await redisDatabase.HashSetAsync(
                     GetRedPacketRecordsRedisKey(id), 
                     userId,
-                    new RedPacketRecord { MoneyOfYuan = moneyOfYuan, DateTime = DateTime.Now }
+                    new RedPacketRecord { MoneyOfYuan = moneyOfYuan, DateTime = DateTimeOffset.Now }
                 );
                 return moneyOfYuan;
             }
