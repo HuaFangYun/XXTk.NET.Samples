@@ -21,7 +21,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Others", "Others", "{9D61F6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXTk.ShortUrl.Api", "XXTk.ShortUrl.Api\XXTk.ShortUrl.Api.csproj", "{327EF4B3-E2F8-4F16-BBBF-05DDA12C3E9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XXTk.RedPacket.Api", "XXTk.RedPacket.Api\XXTk.RedPacket.Api.csproj", "{CBB3CBF4-83BE-4BA7-96A1-5BC64081EF8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XXTk.RedPacket.Api", "XXTk.RedPacket.Api\XXTk.RedPacket.Api.csproj", "{CBB3CBF4-83BE-4BA7-96A1-5BC64081EF8F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Redis", "Redis", "{416553B3-402F-4A2B-9953-3F8E7408D703}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XXTk.Redis.DistributedLock.Api", "XXTk.Redis.DistributedLock.Api\XXTk.Redis.DistributedLock.Api.csproj", "{8FC7250C-8A55-4244-9DC2-235133BB4B21}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +61,10 @@ Global
 		{CBB3CBF4-83BE-4BA7-96A1-5BC64081EF8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBB3CBF4-83BE-4BA7-96A1-5BC64081EF8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBB3CBF4-83BE-4BA7-96A1-5BC64081EF8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FC7250C-8A55-4244-9DC2-235133BB4B21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FC7250C-8A55-4244-9DC2-235133BB4B21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FC7250C-8A55-4244-9DC2-235133BB4B21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FC7250C-8A55-4244-9DC2-235133BB4B21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +77,7 @@ Global
 		{715453A2-F94A-4E86-89B4-5C885788EE66} = {8CA73328-E8FB-4240-AC8C-31B3649B1622}
 		{327EF4B3-E2F8-4F16-BBBF-05DDA12C3E9F} = {9D61F6FF-47F3-4A45-9828-067F1CFE90F2}
 		{CBB3CBF4-83BE-4BA7-96A1-5BC64081EF8F} = {9D61F6FF-47F3-4A45-9828-067F1CFE90F2}
+		{8FC7250C-8A55-4244-9DC2-235133BB4B21} = {416553B3-402F-4A2B-9953-3F8E7408D703}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DA1F9289-B3EF-4A09-A4AE-A4EDDBA6A978}
